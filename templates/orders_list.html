@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Список заявок</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+  </head>
+  <body>
+    <h1>Список заявок</h1>
+    <ul>
+      {% for order in orders %}
+      <li>
+        <a href="{% url 'order_detail' order.id %}">
+          {{ order.client_name }} - {{ order.status }}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

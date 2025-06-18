@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Заявка #{{ order.id }}</title>
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+  </head>
+  <body>
+    <h1>Заявка #{{ order.id }}</h1>
+    <p>Клиент: {{ order.client_name }}</p>
+    <p>Мастер: {{ master.name }}</p>
+    <p>Дата: {{ order.date }}</p>
+    <p>Статус: {{ order.status }}</p>
+    <h2>Услуги:</h2>
+    <ul>
+      {% for service in order.services %}
+      <li>{{ service }}</li>
+      {% endfor %}
+    </ul>
+    <a href="{% url 'orders_list' %}">Назад к списку</a>
+  </body>
+</html>
