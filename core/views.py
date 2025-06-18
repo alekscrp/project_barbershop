@@ -21,6 +21,11 @@ services = [
     "Полировка лысины до блеска",
 ]
 
+STATUS_NEW = "новая"
+STATUS_CONFIRMED = "подтвержденная"
+STATUS_CANCELLED = "отмененная"
+STATUS_COMPLETED = "выполненная"
+
 orders = [
     {
         "id": 1,
@@ -28,7 +33,7 @@ orders = [
         "services": ["Стрижка под 'Горшок'", "Полировка лысины до блеска"],
         "master_id": 1,
         "date": "2025-03-20",
-        "status": "STATUS_NEW",
+        "status": STATUS_NEW,
     },
     {
         "id": 2,
@@ -36,7 +41,7 @@ orders = [
         "services": ["Укладка 'Взрыв на макаронной фабрике'"],
         "master_id": 2,
         "date": "2025-03-21",
-        "status": "STATUS_CONFIRMED",
+        "status": STATUS_CONFIRMED,
     },
     {
         "id": 3,
@@ -48,7 +53,7 @@ orders = [
         ],
         "master_id": 3,
         "date": "2025-03-19",
-        "status": "STATUS_COMPLETED",
+        "status": STATUS_COMPLETED,
     },
     {
         "id": 4,
@@ -56,7 +61,7 @@ orders = [
         "services": ["Окрашивание 'Жизнь в розовом цвете'", "Укладка 'Ветер в голове'"],
         "master_id": 4,
         "date": "2025-03-22",
-        "status": "STATUS_CANCELLED",
+        "status": STATUS_CANCELLED,
     },
     {
         "id": 5,
@@ -64,7 +69,7 @@ orders = [
         "services": ["Плетение косичек 'Викинг'", "Стрижка бороды 'Боярин'"],
         "master_id": 5,
         "date": "2025-03-23",
-        "status": "STATUS_NEW",
+        "status": STATUS_NEW,
     },
     {
         "id": 6,
@@ -72,7 +77,7 @@ orders = [
         "services": ["Полировка лысины до блеска", "Массаж головы 'Озарение'"],
         "master_id": 1,
         "date": "2025-03-24",
-        "status": "STATUS_CONFIRMED",
+        "status": STATUS_CONFIRMED,
     },
     {
         "id": 7,
@@ -80,7 +85,7 @@ orders = [
         "services": ["Укладка 'Ветер в голове'", "Мытье головы 'Душ впечатлений'"],
         "master_id": 2,
         "date": "2025-03-25",
-        "status": "STATUS_CANCELLED",
+        "status": STATUS_CANCELLED,
     },
     {
         "id": 8,
@@ -92,7 +97,7 @@ orders = [
         ],
         "master_id": 3,
         "date": "2025-03-26",
-        "status": "STATUS_COMPLETED",
+        "status": STATUS_COMPLETED,
     },
     {
         "id": 9,
@@ -100,7 +105,7 @@ orders = [
         "services": ["Королевское бритье опасной бритвой"],
         "master_id": 4,
         "date": "2025-03-27",
-        "status": "STATUS_NEW",
+        "status": STATUS_NEW,
     },
     {
         "id": 10,
@@ -112,7 +117,7 @@ orders = [
         ],
         "master_id": 5,
         "date": "2025-03-28",
-        "status": "STATUS_COMPLETED",
+        "status": STATUS_COMPLETED,
     },
 ]
 
@@ -122,11 +127,11 @@ def landing(request):
 
 
 def thanks(request):
-    return render(request, "core/thanks.html")
+    return render(request, "thanks.html")
 
 
 def orders_list(request):
-    return render(request, "core/orders_list.html", {"orders": orders})
+    return render(request, "orders_list.html", {"orders": orders})
 
 
 def order_detail(request, order_id):
@@ -135,4 +140,6 @@ def order_detail(request, order_id):
         return render(request, "core/404.html", status=404)
 
     master = next((m for m in masters if m["id"] == order["master_id"]), None)
-    return render(request, "core/order_detail.html", {"order": order, "master": master})
+    return render(
+        request, "order_detail.html", {"order": order, "master": master}
+    )
