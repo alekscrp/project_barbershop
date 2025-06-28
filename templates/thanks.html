@@ -1,12 +1,39 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Спасибо!</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}" />
-  </head>
-  <body>
-    <h1>Спасибо за вашу заявку!</h1>
-    <p>Мы свяжемся с вами в ближайшее время.</p>
-  </body>
-</html>
+
+{% block title %}Спасибо за заявку | {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="py-5 text-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h1 class="display-4 mb-4">Спасибо за вашу заявку!</h1>
+                <p class="lead">Мы свяжемся с вами в ближайшее время для подтверждения записи.</p>
+                <div class="alert alert-info mt-5">
+                    <p>Вы будете автоматически перенаправлены на главную страницу через <span id="countdown">5</span> секунд.</p>
+                </div>
+                <a href="{% url 'mainapp:landing' %}" class="btn btn-primary btn-lg mt-3">Вернуться на главную</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% block scripts %}
+{{ block.super }}
+<script>
+    let seconds = 5;
+    const countdown = document.getElementById('countdown');
+    
+    const timer = setInterval(() => {
+        seconds--;
+        countdown.textContent = seconds;
+        
+        if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "{% url 'mainapp:landing' %}";
+        }
+    }, 1000);
+</script>
+{% endblock %}
+{% endblock %}

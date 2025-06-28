@@ -1,22 +1,78 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Заявка #{{ order.id }}</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}" />
-  </head>
-  <body>
-    <h1>Заявка #{{ order.id }}</h1>
-    <p>Клиент: {{ order.client_name }}</p>
-    <p>Мастер: {{ master.name }}</p>
-    <p>Дата: {{ order.date }}</p>
-    <p>Статус: {{ order.status }}</p>
-    <h2>Услуги:</h2>
-    <ul>
-      {% for service in order.services %}
-      <li>{{ service }}</li>
-      {% endfor %}
-    </ul>
-    <a href="{% url 'orders_list' %}">Назад к списку</a>
-  </body>
-</html>
+
+{% block title %}Заявка #{{ order.id }} | {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Заявка #{{ order.id }}</h1>
+            <a href="{% url 'mainapp:orders_list' %}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Назад к списку
+            </a>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Основная информация</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Клиент:</strong> {{ order.client_name }}</p>
+                        <p><strong>Телефон:</strong> {{ order.client_phone }}</p>
+                        <p><strong>Email:</strong> {{ order.client_email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Дата и время:</strong> {{ order.date }}</p>
+                        <p><strong>Мастер:</strong> {{ order.master }}</p>
+                        <p>
+                            <strong>Статус:</strong> 
+                            <span class="badge 
+                                {% if order.status == 'new' %}bg-warning text-dark
+                                {% elif order.status == 'confirmed' %}bg-primary
+                                {% elif order.status == 'completed' %}bg-success
+                                {% elif order.status == 'canceled' %}bg-danger
+                                {% else %}bg-secondary{% endif %}">
+                                {{ order.status|upper }}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Услуги</h5>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    {% for service in order.services %}
+                    <li class="list-group-item">{{ service }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Комментарий</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ order.comment }}</p>
+            </div>
+        </div>
+        
+        <div class="mt-4 d-flex justify-content-end">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-success">Подтвердить</button>
+                <button type="button" class="btn btn-primary">Редактировать</button>
+                <button type="button" class="btn btn-danger">Отменить</button>
+                <button type="button" class="btn btn-secondary">Завершить</button>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

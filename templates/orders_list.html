@@ -1,20 +1,67 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Список заявок</title>
-    <link rel="stylesheet" href="{% static 'main.css' %}" />
-  </head>
-  <body>
-    <h1>Список заявок</h1>
-    <ul>
-      {% for order in orders %}
-      <li>
-        <a href="{% url 'order_detail' order.id %}">
-          {{ order.client_name }} - {{ order.status }}
-        </a>
-      </li>
-      {% endfor %}
-    </ul>
-  </body>
-</html>
+
+{% block title %}Список заявок | {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-5">Список заявок</h1>
+        
+        <div class="mb-4">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary active">Все</button>
+                <button type="button" class="btn btn-outline-warning">Новые</button>
+                <button type="button" class="btn btn-outline-primary">Подтверждённые</button>
+                <button type="button" class="btn btn-outline-success">Завершённые</button>
+                <button type="button" class="btn btn-outline-danger">Отменённые</button>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                {% for order in orders %}
+                    {% include 'includes/order_card.html' with order=order %}
+                {% empty %}
+                    <div class="alert alert-info">Нет заявок для отображения</div>
+                {% endfor %}
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Фильтры</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Дата</label>
+                                <input type="date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Мастер</label>
+                                <select class="form-select">
+                                    <option>Все мастера</option>
+                                    <option>Пётр Петров</option>
+                                    <option>Сергей Сергеев</option>
+                                    <option>Алексей Алексеев</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Услуга</label>
+                                <select class="form-select">
+                                    <option>Все услуги</option>
+                                    <option>Мужская стрижка</option>
+                                    <option>Бритьё опасной бритвой</option>
+                                    <option>Уход за бородой</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Применить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
