@@ -1,0 +1,19 @@
+<div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">{{ order.client_name }}</h5>
+        <span class="badge 
+            {% if order.status == 'new' %}bg-warning text-dark
+            {% elif order.status == 'confirmed' %}bg-primary
+            {% elif order.status == 'completed' %}bg-success
+            {% elif order.status == 'canceled' %}bg-danger
+            {% else %}bg-secondary{% endif %}">
+            {{ order.status|upper }}
+        </span>
+    </div>
+    <div class="card-body">
+        <p class="card-text"><strong>Дата:</strong> {{ order.date }}</p>
+        <p class="card-text"><strong>Услуги:</strong> {{ order.services|join:", " }}</p>
+        <p class="card-text"><strong>Мастер:</strong> {{ order.master }}</p>
+        <a href="{% url 'mainapp:order_detail' order.id %}" class="btn btn-outline-primary">Подробнее</a>
+    </div>
+</div>
